@@ -1,13 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { generateImage } from "jsdom-screenshot";
+import { render } from "react-testing-library";
 import App from "./App";
 
 it("renders without crashing", async () => {
   // render App into jsdom
-  const div = document.createElement("div");
-  document.body.appendChild(div);
-  ReactDOM.render(<App />, div);
+  render(<App />);
 
   // prevent spinner from rotating to ensure consistent screenshots
   document
@@ -18,8 +16,4 @@ it("renders without crashing", async () => {
   const screenshot = await generateImage();
   // and compare it to the previous sceenshot with toMatchImageSnapshot()
   expect(screenshot).toMatchImageSnapshot();
-
-  // clean up for next test
-  ReactDOM.unmountComponentAtNode(div);
-  document.body.removeChild(div);
 });
